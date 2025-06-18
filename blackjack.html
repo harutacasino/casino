@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ブラックジャック</title>
+    <link rel="stylesheet" href="casinostyles.css">
+    <link rel="stylesheet" href="blackjackstyles.css">
+</head>
+<body>
+    <header class="banner">
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='casino.html'">
+            <img src="logo.png" alt="Casino Logo">
+        </div>
+        <div class="balance">残高: </div>
+        <div class="user-info">ようこそ</div>
+    </header>
+    <div class="bj-container">
+        <h1>ブラックジャック</h1>
+        <div class="bj-table">
+            <div class="bj-dealer">
+                <div class="bj-label">ディーラー</div>
+                <div class="bj-cards" id="dealer-cards"></div>
+                <div class="bj-score" id="dealer-score"></div>
+            </div>
+            <div class="bj-player">
+                <div class="bj-label">あなた</div>
+                <div class="bj-cards" id="player-cards"></div>
+                <div class="bj-score" id="player-score"></div>
+            </div>
+        </div>
+        <div class="bj-bet-area">
+            <label>ベット額: <input type="number" id="bj-bet" min="1" value="100"></label>
+            <button id="bj-bet-btn">ベット</button>
+        </div>
+        <div class="bj-actions">
+            <button id="bj-hit-btn" disabled>ヒット</button>
+            <button id="bj-stand-btn" disabled>スタンド</button>
+            <button id="bj-newgame-btn" style="display:none;">新しいゲーム</button>
+        </div>
+        <div class="bj-result" id="bj-result"></div>
+    </div>
+    <script src="config.js"></script>
+    <script src="casinoscript.js"></script>
+    <script src="blackjackscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ハイローゲーム</title>
+    <link rel="stylesheet" href="casinostyles.css">
+    <link rel="stylesheet" href="highlowstyles.css">
+</head>
+<body>
+    <header class="banner">
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='casino.html'">
+            <img src="logo.png" alt="Casino Logo">
+        </div>
+        <div class="balance">残高: </div>
+        <div class="user-info">ようこそ</div>
+    </header>
+    <div class="game-area">
+        <h1>ハイロー</h1>
+        <div id="highlow-game">
+            <div class="main-row">
+                <div id="card-area">A</div>
+                <div class="arrow-buttons">
+                    <button id="high-btn">↑</button>
+                    <button id="low-btn">↓</button>
+                </div>
+            </div>
+            <div id="bet-area">
+                <label>ベット額: <input type="number" id="bet-amount" value="0" min="1"></label>
+                <button id="bet-btn">ベット</button>
+            </div>
+            <p id="result"></p>
+        </div>
+    </div>
+    <script src="config.js"></script>
+    <script src="casinoscript.js"></script>
+    <script src="highlowscript.js"></script>
+</body>
+</html>

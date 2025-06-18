@@ -1,0 +1,105 @@
+body {
+    background: #102040;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.mines-container {
+    max-width: 480px;
+    margin: 40px auto;
+    background: #1c2940;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.mines-controls {
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.mines-controls label {
+    font-size: 16px;
+}
+
+.mines-controls input,
+.mines-controls select {
+    font-size: 16px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    margin-left: 4px;
+}
+
+.mines-controls button {
+    background-color: #ff9800;
+    color: #fff;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+.mines-controls button:disabled {
+    background: #888;
+    cursor: not-allowed;
+}
+
+.mines-board {
+    display: grid;
+    grid-template-columns: repeat(5, 48px);
+    grid-template-rows: repeat(5, 48px);
+    gap: 10px;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+.mines-cell {
+    width: 48px;
+    height: 48px;
+    background: #223355;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.mines-cell.open {
+    background: #ffe082;
+    color: #222;
+    cursor: default;
+}
+
+.mines-cell.bomb {
+    background: #e53935;
+    color: #fff;
+    cursor: default;
+}
+
+.mines-info {
+    margin-top: 12px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#mines-result {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+}

@@ -1,0 +1,86 @@
+body {
+    background: #102040;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.bj-container {
+    max-width: 480px;
+    margin: 40px auto;
+    background: #1c2940;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.bj-table {
+    margin: 24px 0;
+}
+
+.bj-label {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.bj-cards {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.bj-card {
+    width: 54px;
+    height: 80px;
+    background: #fff;
+    color: #102040;
+    font-size: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    border: 2px solid #ffd700;
+}
+
+.bj-score {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.bj-bet-area {
+    margin: 18px 0;
+}
+
+#bj-bet {
+    width: 90px;
+    font-size: 18px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+}
+
+#bj-bet-btn, #bj-hit-btn, #bj-stand-btn, #bj-newgame-btn {
+    background-color: #ff9800;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 6px;
+    font-size: 16px;
+}
+
+#bj-bet-btn:disabled, #bj-hit-btn:disabled, #bj-stand-btn:disabled {
+    background: #888;
+    cursor: not-allowed;
+}
+
+.bj-result {
+    font-size: 20px;
+    margin-top: 18px;
+    min-height: 32px;
+}

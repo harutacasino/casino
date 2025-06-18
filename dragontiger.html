@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ドラゴンタイガー</title>
+    <link rel="stylesheet" href="casinostyles.css">
+    <link rel="stylesheet" href="dragontigerstyles.css">
+</head>
+<body>
+    <!-- バナー -->
+    <header class="banner">
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='casino.html'">
+            <img src="logo.png" alt="Casino Logo">
+        </div>
+        <div class="balance">残高: <span id="dt-balance">0</span>円</div>
+        <div class="user-info">ようこそ</div>
+    </header>
+
+    <div class="dt-container">
+        <h1>ドラゴンタイガー</h1>
+        
+        <!-- カード表示エリア -->
+        <div class="dt-cards">
+            <div class="dt-card-area">
+                <div class="dt-label">ドラゴン</div>
+                <div class="dt-card" id="dragon-card">?</div>
+            </div>
+            <div class="dt-card-area">
+                <div class="dt-label">タイガー</div>
+                <div class="dt-card" id="tiger-card">?</div>
+            </div>
+        </div>
+
+        <!-- ベットエリア -->
+        <div class="dt-bet-areas">
+            <div class="dt-bet-area" id="dragon-bet-area">
+                <span>ドラゴンにベット</span>
+                <div class="dt-bet-chip" id="dragon-bet"></div>
+            </div>
+            <div class="dt-bet-area" id="tie-bet-area">
+                <span>タイにベット</span>
+                <div class="dt-bet-chip" id="tie-bet"></div>
+            </div>
+            <div class="dt-bet-area" id="tiger-bet-area">
+                <span>タイガーにベット</span>
+                <div class="dt-bet-chip" id="tiger-bet"></div>
+            </div>
+        </div>
+
+        <!-- チップ選択 -->
+        <div class="dt-chips">
+            <button class="dt-chip" data-value="50">50</button>
+            <button class="dt-chip" data-value="100">100</button>
+            <button class="dt-chip" data-value="500">500</button>
+            <button class="dt-chip" data-value="1000">1000</button>
+            <button class="dt-chip" data-value="2500">2500</button>
+            <button class="dt-chip" data-value="10000">10000</button>
+        </div>
+        <!-- 履歴表示エリア -->
+        <div class="dt-history" id="dt-history"></div>
+        <div class="dt-info">
+            <span id="dt-timer">5</span> 秒後に自動で次のゲーム
+        </div>
+        <div class="dt-result" id="dt-result"></div>
+    </div>
+    <script src="config.js"></script>
+    <script src="dragontigerscript.js"></script>
+    <script>
+    // バナーの残高・ユーザー名を自動更新（casino.htmlと統一）
+    async function fetchBannerBalance() {
+        const email = localStorage.getItem('casino_email');
+        if (!email) {
+            document.querySelector('.balance').textContent = '残高取得失敗';
+            document.querySelector('.user-info').textContent = '';
+            return;
+        }
+        try {
+            const params = new URLSearchParams({
+                email: email,
+                action: 'getBalance'
+            });
+            const response = await fetch(`${GAS_URL}?${params.toString()}`);
+            const data = await response.json();
+            if (data.result === 'success') {
+                document.querySelector('.balance').innerHTML = `残高: <span id="dt-balance">${data.balance}</span>円`;
+                document.querySelector('.user-info').textContent = `ようこそ, ${data.username}`;
+            } else {
+                document.querySelector('.balance').textContent = '残高取得失敗';
+            }
+        } catch (e) {
+            document.querySelector('.balance').textContent = '通信エラー';
+        }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+        fetchBannerBalance();
+        setInterval(fetchBannerBalance, 10000); // 10秒ごとに残高を自動更新
+    });
+    </script>
+</body>
+</html>

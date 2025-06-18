@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>バカラ</title>
+    <link rel="stylesheet" href="casinostyles.css">
+    <link rel="stylesheet" href="baccaratstyles.css">
+</head>
+<body>
+    <!-- バナー -->
+    <header class="banner">
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='casino.html'">
+            <img src="logo.png" alt="Casino Logo">
+        </div>
+        <div class="balance">残高: <span id="baccarat-balance">0</span>円</div>
+        <div class="user-info">ようこそ</div>
+    </header>
+
+    <div class="baccarat-container">
+        <h1>バカラ</h1>
+        
+        <!-- カード表示エリア -->
+        <div class="baccarat-cards">
+            <div class="baccarat-card-area">
+                <div class="baccarat-label">プレイヤー</div>
+                <div class="baccarat-card-group" id="player-cards">
+                    <div class="baccarat-card">?</div>
+                    <div class="baccarat-card">?</div>
+                </div>
+                <div class="baccarat-score" id="player-score"></div>
+            </div>
+            <div class="baccarat-card-area">
+                <div class="baccarat-label">バンカー</div>
+                <div class="baccarat-card-group" id="banker-cards">
+                    <div class="baccarat-card">?</div>
+                    <div class="baccarat-card">?</div>
+                </div>
+                <div class="baccarat-score" id="banker-score"></div>
+            </div>
+        </div>
+
+        <!-- ベットエリア -->
+        <div class="baccarat-bet-areas">
+            <div class="baccarat-bet-area" id="player-bet-area">
+                <span>プレイヤーにベット</span>
+                <div class="baccarat-bet-chip" id="player-bet"></div>
+            </div>
+            <div class="baccarat-bet-area" id="tie-bet-area">
+                <span>タイにベット</span>
+                <div class="baccarat-bet-chip" id="tie-bet"></div>
+            </div>
+            <div class="baccarat-bet-area" id="banker-bet-area">
+                <span>バンカーにベット</span>
+                <div class="baccarat-bet-chip" id="banker-bet"></div>
+            </div>
+        </div>
+
+        <!-- チップ選択 -->
+        <div class="baccarat-chips">
+            <button class="baccarat-chip" data-value="50">50</button>
+            <button class="baccarat-chip" data-value="100">100</button>
+            <button class="baccarat-chip" data-value="500">500</button>
+            <button class="baccarat-chip" data-value="1000">1000</button>
+            <button class="baccarat-chip" data-value="2500">2500</button>
+            <button class="baccarat-chip" data-value="10000">10000</button>
+        </div>
+        <!-- 履歴表示エリア -->
+        <div class="baccarat-history" id="baccarat-history"></div>
+        <div class="baccarat-info">
+            <span id="baccarat-timer">5</span> 秒後に自動で次のゲーム
+        </div>
+        <div class="baccarat-result" id="baccarat-result"></div>
+    </div>
+    <script src="config.js"></script>
+    <script src="baccaratscript.js"></script>
+    <script>
+    // バナーの残高・ユーザー名を自動更新
+    async function fetchBannerBalance() {
+        const email = localStorage.getItem('casino_email');
+        if (!email) {
+            document.querySelector('.balance').textContent = '残高取得失敗';
+            document.querySelector('.user-info').textContent = '';
+            return;
+        }
+        try {
+            const params = new URLSearchParams({
+                email: email,
+                action: 'getBalance'
+            });
+            const response = await fetch(`${GAS_URL}?${params.toString()}`);
+            const data = await response.json();
+            if (data.result === 'success') {
+                document.querySelector('.balance').innerHTML = `残高: <span id="baccarat-balance">${data.balance}</span>円`;
+                document.querySelector('.user-info').textContent = `ようこそ, ${data.username}`;
+            } else {
+                document.querySelector('.balance').textContent = '残高取得失敗';
+            }
+        } catch (e) {
+            document.querySelector('.balance').textContent = '通信エラー';
+        }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+        fetchBannerBalance();
+        setInterval(fetchBannerBalance, 10000);
+    });
+    </script>
+</body>
+</html>

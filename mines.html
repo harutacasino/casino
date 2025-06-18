@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>マインズ</title>
+    <link rel="stylesheet" href="casinostyles.css">
+    <link rel="stylesheet" href="minesstyles.css">
+</head>
+<body>
+    <header class="banner">
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='casino.html'">
+            <img src="logo.png" alt="Casino Logo">
+        </div>
+        <div class="balance">残高: <span id="mines-balance">0</span>円</div>
+        <div class="user-info">ようこそ</div>
+    </header>
+    <div class="mines-container">
+        <h1>マインズ</h1>
+        <div class="mines-controls">
+            <label>ベット額: <input type="number" id="mines-bet" min="10" value="100"></label>
+            <label>爆弾数: 
+                <select id="mines-bombs">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                </select>
+            </label>
+            <button id="mines-start-btn">ゲーム開始</button>
+            <button id="mines-cashout-btn" disabled>キャッシュアウト</button>
+        </div>
+        <div class="mines-board" id="mines-board"></div>
+        <div class="mines-info">
+            <span id="mines-picked">開けたマス: 0</span>
+            <span id="mines-multiplier">倍率: 1.00x</span>
+            <span id="mines-result"></span>
+        </div>
+    </div>
+    <script src="config.js"></script>
+    <script src="minesscript.js"></script>
+</body>
+</html>

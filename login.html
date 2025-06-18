@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Login</title>
+    <link rel="stylesheet" href="loginstyles.css">
+</head>
+<body>
+    <!-- 縦長バナー -->
+    <header class="banner">
+        <div class="logo">
+            <img src="logo.png" alt="Casino Logo">
+        </div>
+    </header>
+
+    <div class="login-container">
+        <h1>ログイン</h1>
+        <form id="loginForm">
+            <label for="username">メールアドレスまたはユーザー名</label>
+            <input type="text" id="username" placeholder="メールアドレスまたはユーザー名" required>
+            
+            <label for="password">パスワード</label>
+            <input type="password" id="password" placeholder="パスワード" required>
+
+            <button type="submit">ログイン</button>
+            <p>アカウントをお持ちでない場合 <a href="signup.html">新規作成</a></p>
+        </form>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="loginscript.js"></script>
+</body>
+</html>

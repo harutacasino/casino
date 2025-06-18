@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Casino Lobby</title>
+    <link rel="stylesheet" href="casinostyles.css">
+    <link rel="stylesheet" href="rankingstyles.css"><!-- ランキング用CSS追加 -->
+</head>
+<body>
+    <!-- バナー -->
+    <header class="banner">
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='casino.html'">
+            <img src="logo.png" alt="Casino Logo">
+        </div>
+        <div class="balance">残高: </div>
+        <div class="user-info">ようこそ</div>
+    </header>
+
+    <!-- ランキング＋送金フォームを横並びに配置 -->
+    <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;">
+        <!-- ランキング欄 -->
+        <div class="ranking-container" style="flex: 1 1 320px; min-width: 260px;">
+            <h2>残高ランキング</h2>
+            <table class="ranking-table" id="ranking-table">
+                <thead>
+                    <tr>
+                        <th>順位</th>
+                        <th>ユーザー名</th>
+                        <th>残高</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="3">読み込み中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 送金フォーム -->
+        <div class="transfer-container" style="flex: 0 1 180px; min-width: 140px; background: #1c2940; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); padding: 12px 8px; text-align: center;">
+            <h3 style="font-size:18px;margin-bottom:8px;">送金</h3>
+            <form id="transfer-form">
+                <input type="text" id="transfer-to" placeholder="宛先" required style="margin-bottom:4px;width:95%;font-size:13px;">
+                <input type="number" id="transfer-amount" placeholder="金額" min="1" required style="margin-bottom:4px;width:95%;font-size:13px;">
+                <input type="password" id="transfer-password" placeholder="PW" required style="margin-bottom:4px;width:95%;font-size:13px;">
+                <button type="submit" style="width:95%;font-size:13px;">送金</button>
+            </form>
+            <div id="transfer-result" style="margin-top:4px;min-height:18px;font-size:13px;"></div>
+        </div>
+    </div>
+
+    <!-- ゲーム選択画面 -->
+    <div class="game-container">
+        <h1>ゲームを選択</h1>
+        <div class="games">
+            <div class="game-card" onclick="window.location.href='highlow.html'" style="cursor:pointer;">
+                <p>ハイロー</p>
+            </div>
+            <div class="game-card" onclick="window.location.href='baccarat.html'" style="cursor:pointer;">
+                <p>バカラ</p>
+            </div>
+            <div class="game-card" onclick="window.location.href='mines.html'" style="cursor:pointer;">
+                <p>マインズ</p>
+            </div>
+            <div class="game-card" onclick="window.location.href='dragontiger.html'" style="cursor:pointer;">
+                <p>ドラゴンタイガー</p>
+            </div>
+            <div class="game-card" onclick="window.location.href='blackjack.html'" style="cursor:pointer;">
+                <p>ブラックジャック</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 管理者メニュー -->
+    <div id="admin-menu" style="display:none; margin: 24px auto; max-width: 480px;">
+        <details>
+            <summary style="cursor:pointer; font-weight:bold; font-size:18px;">管理者メニュー</summary>
+            <div style="margin-top:12px;">
+                <button onclick="window.location.href='admin.html'" style="margin-bottom:8px;">管理画面へ</button>
+                <!-- ここに他の管理者用機能ボタンやフォームを追加可能 -->
+                <div>
+                    <p style="font-size:14px; color:#ffe082;">ここからユーザー管理や残高設定などができます。</p>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="casinoscript.js"></script>
+</body>
+</html>

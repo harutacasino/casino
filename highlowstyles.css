@@ -1,0 +1,113 @@
+/* 背景を紺色に */
+body {
+    background: #102040;
+    color: #fff;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* ゲームエリア中央寄せ */
+.game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 60vh;
+    margin-top: 32px;
+}
+
+/* ハイローゲームUI全体 */
+#highlow-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+}
+
+/* カードと矢印を横並びに */
+.main-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+}
+
+/* カード表示部分 */
+#card-area {
+    font-size: 56px;
+    border: 2px solid #fff;
+    border-radius: 16px;
+    width: 110px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #d84315;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    margin-bottom: 0;
+}
+
+/* 矢印ボタンを縦並びに */
+.arrow-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+#high-btn, #low-btn {
+    font-size: 36px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    background: #f5f5f5;
+    color: #102040;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+#high-btn:hover, #low-btn:hover {
+    background: #ffe082;
+    color: #d84315;
+}
+
+/* 掛け金入力欄 */
+#bet-area {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+#bet-amount {
+    width: 90px;
+    font-size: 20px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    margin-left: 8px;
+}
+#bet-btn {
+    font-size: 18px;
+    padding: 6px 18px;
+    border-radius: 6px;
+    border: none;
+    background: #00e676;
+    color: #102040;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#bet-btn:hover {
+    background: #1de9b6;
+}
+
+/* 結果表示 */
+#result {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 16px;
+    min-height: 32px;
+    color: #ffe082;
+}

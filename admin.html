@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>管理者画面</title>
+    <link rel="stylesheet" href="casinostyles.css">
+    <style>
+        .admin-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #1c2940;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            padding: 32px 24px;
+            color: #fff;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+            background: #223355;
+        }
+        .admin-table th, .admin-table td {
+            padding: 8px;
+            border-bottom: 1px solid #334466;
+            font-size: 15px;
+        }
+        .admin-table th {
+            background: #162b4a;
+        }
+        .admin-form {
+            margin: 24px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .admin-form input, .admin-form button {
+            font-size: 15px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+        }
+        .admin-form button {
+            background: #ff9800;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .admin-form button:hover {
+            background: #ffa726;
+        }
+        .admin-result {
+            margin-top: 12px;
+            min-height: 20px;
+            font-size: 15px;
+        }
+        .admin-password {
+            font-family: monospace;
+            font-size: 13px;
+            color: #ffe082;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <header class="banner">
+        <div class="logo" style="cursor:pointer;" onclick="window.location.href='casino.html'">
+            <img src="logo.png" alt="Casino Logo">
+        </div>
+        <div class="balance"></div>
+        <div class="user-info"></div>
+    </header>
+    <div class="admin-container">
+        <h1>管理者画面</h1>
+        <form class="admin-form" id="admin-login-form">
+            <input type="text" id="admin-email" placeholder="管理者メール/ユーザー名" required>
+            <input type="password" id="admin-password" placeholder="管理者パスワード" required>
+            <button type="submit">管理者ログイン</button>
+        </form>
+        <div class="admin-result" id="admin-result"></div>
+        <div id="admin-panel" style="display:none;">
+            <h2>ユーザー一覧</h2>
+            <table class="admin-table" id="admin-user-table">
+                <thead>
+                    <tr>
+                        <th>メール</th>
+                        <th>ユーザー名</th>
+                        <th>残高</th>
+                        <th>パスワードハッシュ</th>
+                        <th>ランキング表示</th>
+                        <th>残高設定</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- JSで挿入 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="config.js"></script>
+    <script>
+    let adminEmail = '';
+    let adminPassword = '';
+
+    document.getElementById('admin-login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        adminEmail = document.getElementById('admin-email').value.trim();
+        adminPassword = document.getElementById('admin-password').value;
+        const resultDiv = document.getElementById('admin-result');
+        resultDiv.textContent = '認証中...';
+        // 管理者認証＆全ユーザー取得
+        try {
+            const params = new URLSearchParams({
+                action: 'adminGetUsers',
+                email: adminEmail,
+                password: adminPassword
+            });
+            const res = await fetch(`${GAS_URL}?${params.toString()}`);
+            const data = await res.json();
+            if (data.result === 'success' && Array.isArray(data.users)) {
+                resultDiv.textContent = '認証成功';
+                document.getElementById('admin-panel').style.display = '';
+                renderUserTable(data.users);
+            } else {
+                resultDiv.textContent = data.message || '認証失敗';
+                document.getElementById('admin-panel').style.display = 'none';
+            }
+        } catch {
+            resultDiv.textContent = '通信エラー';
+            document.getElementById('admin-panel').style.display = 'none';
+        }
+    });
+
+    function renderUserTable(users) {
+        const tbody = document.getElementById('admin-user-table').querySelector('tbody');
+        tbody.innerHTML = '';
+        users.forEach(user => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${user.email}</td>
+                <td>${user.username}</td>
+                <td><span class="user-balance">${user.balance}</span></td>
+                <td class="admin-password">${user.passwordHash}</td>
+                <td>
+                    <form class="set-ranking-form" data-email="${user.email}">
+                        <select>
+                            <option value="true" ${user.ranking === true || user.ranking === 'TRUE' || user.ranking === 1 || user.ranking === '1' ? 'selected' : ''}>表示</option>
+                            <option value="false" ${user.ranking === false || user.ranking === 'FALSE' || user.ranking === 0 || user.ranking === '0' ? 'selected' : ''}>非表示</option>
+                        </select>
+                        <button type="submit">変更</button>
+                    </form>
+                </td>
+                <td>
+                    <form class="set-balance-form" data-email="${user.email}">
+                        <input type="number" min="0" placeholder="新残高" style="width:80px;">
+                        <button type="submit">設定</button>
+                    </form>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // ランキング表示切替フォームのイベント
+        document.querySelectorAll('.set-ranking-form').forEach(form => {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = this.getAttribute('data-email');
+                const value = this.querySelector('select').value;
+                const params = new URLSearchParams({
+                    action: 'adminSetRanking',
+                    email: adminEmail,
+                    password: adminPassword,
+                    target: email,
+                    ranking: value
+                });
+                const res = await fetch(`${GAS_URL}?${params.toString()}`);
+                const data = await res.json();
+                const resultDiv = document.getElementById('admin-result');
+                if (data.result === 'success') {
+                    resultDiv.textContent = `ランキング表示を${value === 'true' ? '表示' : '非表示'}に変更しました`;
+                } else {
+                    resultDiv.textContent = data.message || '変更失敗';
+                }
+            });
+        });
+
+        // 残高設定フォームのイベント
+        document.querySelectorAll('.set-balance-form').forEach(form => {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = this.getAttribute('data-email');
+                const newBalance = this.querySelector('input').value;
+                if (!newBalance) return;
+                const params = new URLSearchParams({
+                    action: 'adminSetBalance',
+                    email: adminEmail,
+                    password: adminPassword,
+                    target: email,
+                    newBalance: newBalance
+                });
+                const res = await fetch(`${GAS_URL}?${params.toString()}`);
+                const data = await res.json();
+                const resultDiv = document.getElementById('admin-result');
+                if (data.result === 'success') {
+                    resultDiv.textContent = `残高を${newBalance}円に設定しました`;
+                    this.closest('tr').querySelector('.user-balance').textContent = newBalance;
+                } else {
+                    resultDiv.textContent = data.message || '設定失敗';
+                }
+            });
+        });
+    }
+    </script>
+</body>
+</html>
