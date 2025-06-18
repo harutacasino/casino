@@ -1,11 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
     let currentCard = Math.floor(Math.random() * 13) + 1;
     let balance = 0;
+    const email = localStorage.getItem('casino_email');
 
-    // GASのWebアプリURL
-   const email = localStorage.getItem('casino_email');
-
-    // GASから残高を取得
     async function fetchBalance() {
         const params = new URLSearchParams({
             email: email,
@@ -16,13 +13,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         return data.balance || 0;
     }
 
-    // 残高を表示
     function setBalance(val) {
         balance = val;
         document.querySelector('.balance').textContent = `残高: ¥${balance}`;
     }
 
-    // 残高をGASに保存
     async function saveBalance(newBalance) {
         if (!email) return;
         const params = new URLSearchParams({
@@ -33,19 +28,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetch(`${GAS_URL}?${params.toString()}`);
     }
 
-    // ここでGASから残高を取得してからUIを初期化
     balance = await fetchBalance();
     setBalance(balance);
 
-    // 初期カード表示
     document.getElementById('card-area').textContent = currentCard;
-
-    // 掛け金の最大値をセット
     document.getElementById('bet-amount').max = balance;
 
-    // ボタンイベント
     document.getElementById('high-btn').addEventListener('click', () => play('high'));
     document.getElementById('low-btn').addEventListener('click', () => play('low'));
+
+    function calculateOdds(current, choice) {
+        const total = 12;
+        const highCount = 13 - current;
+        const lowCount = current - 1;
+
+        if (choice === 'high') {
+            return highCount > 0 ? (total / highCount) : 0;
+        } else {
+            return lowCount > 0 ? (total / lowCount) : 0;
+        }
+    }
 
     async function play(choice) {
         const bet = parseInt(document.getElementById('bet-amount').value, 10);
@@ -56,21 +58,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const nextCard = Math.floor(Math.random() * 13) + 1;
         let resultText = `次のカード: ${nextCard} → `;
+        let win = false;
 
         if (
             (choice === 'high' && nextCard > currentCard) ||
             (choice === 'low' && nextCard < currentCard)
         ) {
-            resultText += `あなたの勝ち！ +¥${bet}`;
-            setBalance(balance + bet);
-            await saveBalance(balance);
-        } else if (nextCard === currentCard) {
-            resultText += '引き分け！';
-        } else {
-            resultText += `あなたの負け！ -¥${bet}`;
-            setBalance(balance - bet);
-            await saveBalance(balance);
+            win = true;
         }
+
+ if (nextCard === currentCard) {
+    resultText += '引き分け！（掛け金は戻りません）';
+} else if (win) {
+    const odds = calculateOdds(currentCard, choice);
+    const payout = Math.floor(bet * odds);
+    const profit = payout - bet;
+    resultText += `勝ち！ オッズ: x${odds.toFixed(2)} → +¥${profit}`;
+    balance += profit;
+    setBalance(balance);
+    await saveBalance(balance);
+} else {
+    resultText += `負け！ -¥${bet}`;
+    balance -= bet;
+    setBalance(balance);
+    await saveBalance(balance);
+}
+
 
         document.getElementById('result').textContent = resultText;
         currentCard = nextCard;
