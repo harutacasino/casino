@@ -1,0 +1,148 @@
+#safe-icon {
+    background: none;
+    border: none;
+    padding: 0 0 0 8px; /* 左に余白 */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+#safe-icon svg {
+    width: 56px;
+    height: 56px;
+    transition: transform 0.2s;
+}
+#safe-icon:hover svg {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px #ffe082);
+}
+#safe-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+#safe-modal.active {
+    display: flex;
+}
+#safe-modal .modal-inner {
+    background: #223355;
+    padding: 40px 36px 32px 36px;
+    border-radius: 18px;
+    min-width: 520px;
+    max-width: 98vw;
+    position: relative;
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    font-size: 1.3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+@keyframes safeModalFadeIn {
+    from { transform: translateY(-40px) scale(0.97); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+#close-safe-modal {
+    position: absolute;
+    top: 12px; right: 18px;
+    font-size: 22px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+#close-safe-modal:hover {
+    opacity: 1;
+}
+.safe-tabs {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+.safe-tab {
+    font-size: 1.2em;
+    padding: 10px 32px;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    background: #2e3b54;
+    color: #bfc9d8;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s, color 0.2s;
+}
+.safe-tab.active {
+    background: #ffe082;
+    color: #223355;
+}
+.safe-forms-row {
+    display: flex;
+    gap: 32px;
+    width: 100%;
+    justify-content: center;
+}
+.safe-form {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background: #263a5a;
+    border-radius: 12px;
+    padding: 24px 24px 18px 24px;
+    min-width: 220px;
+    max-width: 260px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+.safe-form.active {
+    display: flex;
+}
+.safe-prompt {
+    font-size: 1em;
+    margin-bottom: 14px;
+    padding: 8px 10px;
+    border-radius: 7px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+.safe-in-prompt {
+    background: #e3f7e7;
+    color: #1b5e20;
+    border: 1.5px solid #43a047;
+}
+.safe-out-prompt {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1.5px solid #ff9800;
+}
+#safe-modal input, #safe-modal button[type="submit"] {
+    font-size: 1.1em;
+    padding: 10px 12px;
+    border-radius: 7px;
+    border: 1px solid #bbb;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+#safe-modal button[type="submit"] {
+    background: #ff9800;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 6px;
+}
+#safe-modal button[type="submit"]:hover {
+    background: #ffa726;
+}
+.balance-area {
+    display: flex;
+    align-items: center;
+    flex-direction: row; /* 横並びを明示 */
+    gap: 20px;           /* ボタンと残高の間隔を広げる */
+}
