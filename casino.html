@@ -13,16 +13,6 @@
         <div class="logo" style="cursor:pointer;" onclick="window.location.href='casino.html'">
             <img src="logo.png" alt="Casino Logo">
         </div>
-        <div class="balance-area">
-            <span class="balance">残高: <span id="balance-value">-</span> 円</span>
-            <button id="safe-icon" title="金庫を開く">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="#ffe082">
-                    <circle cx="12" cy="12" r="10" stroke="#223355" stroke-width="2" fill="#ffe082"/>
-                    <rect x="8" y="10" width="8" height="6" rx="2" fill="#223355"/>
-                    <circle cx="12" cy="13" r="1.5" fill="#ffe082"/>
-                </svg>
-            </button>
-        </div>
         <div class="user-info">ようこそ</div>
     </header>
 
@@ -91,34 +81,6 @@
                 </div>
             </div>
         </details>
-    </div>
-
-    <!-- 金庫モーダル -->
-    <div id="safe-modal">
-      <div class="modal-inner">
-        <button id="close-safe-modal">×</button>
-        <h3>金庫</h3>
-        <div style="font-size:1.2em;margin-bottom:14px;">金庫残高: <span id="safe-balance">-</span> 円</div>
-        <div class="safe-tabs">
-          <button id="tab-in" class="safe-tab active">預け入れ</button>
-          <button id="tab-out" class="safe-tab">引き出し</button>
-        </div>
-        <div class="safe-forms-row">
-          <form id="safe-in-form" class="safe-form active">
-            <div class="safe-prompt safe-in-prompt">金庫に預け入れる金額とパスワードを入力してください。</div>
-            <input type="number" id="safe-in-amount" min="1" placeholder="預け入れ金額">
-            <input type="password" id="safe-in-password" placeholder="パスワード">
-            <button type="submit">預け入れ</button>
-          </form>
-          <form id="safe-out-form" class="safe-form">
-            <div class="safe-prompt safe-out-prompt">金庫から引き出す金額とパスワードを入力してください。</div>
-            <input type="number" id="safe-out-amount" min="1" placeholder="引き出し金額">
-            <input type="password" id="safe-out-password" placeholder="パスワード">
-            <button type="submit">引き出し</button>
-          </form>
-        </div>
-        <div id="safe-result" style="margin-top:18px;min-height:28px;font-size:1.2em;"></div>
-      </div>
     </div>
 
     <script src="config.js"></script>
