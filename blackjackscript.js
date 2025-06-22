@@ -45,7 +45,6 @@ function handValue(hand) {
         total += card.value;
         if (card.name === 'A') aces++;
     }
-    // Aを1にする調整
     while (total > 21 && aces > 0) {
         total -= 10;
         aces--;
@@ -155,7 +154,6 @@ async function startGame() {
 
     enableActions(true, true, false, false);
 
-    // 21なら即終了
     if (handValue(playerHand) === 21) {
         await endGame();
     }
@@ -175,7 +173,6 @@ async function hit() {
 
 async function stand() {
     if (!gameActive) return;
-    // ディーラーターン
     while (handValue(dealerHand) < 17) {
         dealerHand.push(deck.pop());
     }
@@ -192,14 +189,10 @@ async function endGame() {
 
     let msg = '';
     let win = 0;
+
     if (playerVal > 21) {
         msg = 'バースト！あなたの負け';
         setResult(msg, 0);
-        // ★ここで残高チェックして自動チャージ
-if (balance <= 0) {
-  balance = 1000;
-  msg.push('残高が0なので自動チャージ！+1000円');
-}
     } else if (dealerVal > 21) {
         msg = 'ディーラーバースト！あなたの勝ち';
         win = bet * 2;
@@ -207,7 +200,7 @@ if (balance <= 0) {
         await saveBalance(balance);
         setBalance(balance);
         setResult(msg, win);
-    } else if (playerVal === 21) { // 2枚以上でもOK
+    } else if (playerVal === 21) {
         msg = 'ブラックジャック！3倍獲得';
         win = bet * 3;
         balance += win;
@@ -224,11 +217,6 @@ if (balance <= 0) {
     } else if (playerVal < dealerVal) {
         msg = 'あなたの負け';
         setResult(msg, 0);
-        // ★ここで残高チェックして自動チャージ
-if (balance <= 0) {
-  balance = 1000;
-  msg.push('残高が0なので自動チャージ！+1000円');
-}
     } else {
         msg = '引き分け（プッシュ）';
         win = bet;
@@ -237,6 +225,15 @@ if (balance <= 0) {
         setBalance(balance);
         setResult(msg, win);
     }
+
+    // ★共通：負けた後や残高が0の時に自動チャージ
+    if (balance <= 0) {
+        balance = 1000;
+        await saveBalance(balance);
+        setBalance(balance);
+        document.getElementById('bj-result').textContent += ' / 残高が0なので自動チャージ(+¥1000)';
+    }
+
     enableActions(false, false, false, true);
 }
 
