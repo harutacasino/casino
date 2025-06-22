@@ -129,17 +129,24 @@ async function playRound() {
 }
 
     if (payout > 0) {
-        balance += payout;
-        msg.push(`合計${payout}円獲得！`);
-    } else if (bets.dragon === 0 && bets.tiger === 0 && bets.tie === 0) {
-        msg.push('ベットなし');
-    } else {
-        msg.push('はずれ！');
-    }
+  balance += payout;
+  msg.push(`合計${payout}円獲得！`);
+} else if (bets.dragon === 0 && bets.tiger === 0 && bets.tie === 0) {
+  msg.push('ベットなし');
+} else {
+  msg.push('はずれ！');
+}
 
-    await saveBalance(balance);
-    updateBalanceDisplay();
-    resultElem.textContent = msg.join(' / ');
+// ★ここで残高チェックして自動チャージ
+if (balance <= 0) {
+  balance = 1000;
+  msg.push('残高が0なので自動チャージ！+1000円');
+}
+
+await saveBalance(balance);
+updateBalanceDisplay();
+resultElem.textContent = msg.join(' / ');
+
 
     // 履歴追加
     if (result === 'dragon') {
