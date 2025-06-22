@@ -82,12 +82,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     balance -= bet;
     setBalance(balance);
     await saveBalance(balance);
-     if (balance <= 0) {
-  balance = 1000;
-  msg.push('残高が0なので自動チャージ！+1000円');
 }
 }
 
+    // ★共通：負けた後や残高が0の時に自動チャージ
+    if (balance <= 0) {
+        balance = 1000;
+        await saveBalance(balance);
+        setBalance(balance);
+        document.getElementById('bj-result').textContent += ' / 残高が0なので自動チャージ(+¥1000)';
+    }
 
         document.getElementById('result').textContent = resultText;
         currentCard = nextCard;
