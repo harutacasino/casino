@@ -195,6 +195,11 @@ async function endGame() {
     if (playerVal > 21) {
         msg = 'バースト！あなたの負け';
         setResult(msg, 0);
+        // ★ここで残高チェックして自動チャージ
+if (balance <= 0) {
+  balance = 1000;
+  msg.push('残高が0なので自動チャージ！+1000円');
+}
     } else if (dealerVal > 21) {
         msg = 'ディーラーバースト！あなたの勝ち';
         win = bet * 2;
@@ -219,6 +224,11 @@ async function endGame() {
     } else if (playerVal < dealerVal) {
         msg = 'あなたの負け';
         setResult(msg, 0);
+        // ★ここで残高チェックして自動チャージ
+if (balance <= 0) {
+  balance = 1000;
+  msg.push('残高が0なので自動チャージ！+1000円');
+}
     } else {
         msg = '引き分け（プッシュ）';
         win = bet;
