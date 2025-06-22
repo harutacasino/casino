@@ -226,13 +226,6 @@ async function endGame() {
         setResult(msg, win);
     }
 
-    // ★共通：負けた後や残高が0の時に自動チャージ
-    if (balance <= 0) {
-        balance = 1000;
-        await saveBalance(balance);
-        setBalance(balance);
-        document.getElementById('bj-result').textContent += ' / 残高が0なので自動チャージ(+¥1000)';
-    }
 
     enableActions(false, false, false, true);
 }
