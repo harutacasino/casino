@@ -132,13 +132,6 @@ function loseGame() {
     resultElem.textContent = '💥 爆弾！ゲームオーバー';
 }
 
-// ★共通：負けた後や残高が0の時に自動チャージ
-    if (balance <= 0) {
-        balance = 1000;
-        await saveBalance(balance);
-        setBalance(balance);
-        document.getElementById('bj-result').textContent += ' / 残高が0なので自動チャージ(+¥1000)';
-    }
 
 function openCell(idx) {
     if (!gameActive || opened[idx]) return;
