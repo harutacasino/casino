@@ -67,32 +67,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             win = true;
         }
 
- if (nextCard === currentCard) {
-    resultText += '引き分け！（掛け金は戻りません）';
-} else if (win) {
-    const odds = calculateOdds(currentCard, choice);
-    const payout = Math.floor(bet * odds);
-    const profit = payout - bet;
-    resultText += `勝ち！ オッズ: x${odds.toFixed(2)} → +¥${profit}`;
-    balance += profit;
-    setBalance(balance);
-    await saveBalance(balance);
-} else {
-    resultText += `負け！ -¥${bet}`;
-    balance -= bet;
-    setBalance(balance);
-    await saveBalance(balance);
-}
-}
+        if (nextCard === currentCard) {
+            resultText += '引き分け！（掛け金は戻りません）';
+        } else if (win) {
+            const odds = calculateOdds(currentCard, choice);
+            const payout = Math.floor(bet * odds);
+            const profit = payout - bet;
+            resultText += `勝ち！ オッズ: x${odds.toFixed(2)} → +¥${profit}`;
+            balance += profit;
+        } else {
+            resultText += `負け！ -¥${bet}`;
+            balance -= bet;
+        }
 
-    // ★共通：負けた後や残高が0の時に自動チャージ
-    if (balance <= 0) {
-        balance = 1000;
-        await saveBalance(balance);
+        // ★負けて残高が 0 以下なら自動チャージ
+        if (balance <= 0) {
+            balance = 1000;
+            resultText += ' / 残高が0なので自動チャージ(+¥1000)';
+        }
+
+        // 残高を反映
         setBalance(balance);
-        document.getElementById('bj-result').textContent += ' / 残高が0なので自動チャージ(+¥1000)';
-    }
+        await saveBalance(balance);
 
+        // 表示更新
         document.getElementById('result').textContent = resultText;
         currentCard = nextCard;
         document.getElementById('card-area').textContent = currentCard;
