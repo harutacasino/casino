@@ -82,6 +82,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     balance -= bet;
     setBalance(balance);
     await saveBalance(balance);
+     if (balance <= 0) {
+  balance = 1000;
+  msg.push('残高が0なので自動チャージ！+1000円');
+}
 }
 
 
