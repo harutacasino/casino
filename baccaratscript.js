@@ -286,6 +286,11 @@ async function playRound() {
         msg.push('はずれ！');
     }
 
+    // ★ここで残高チェックして自動チャージ
+if (balance <= 0) {
+  balance = 1000;
+  msg.push('残高が0なので自動チャージ！+1000円');
+}
     await saveBalance(balance);
     updateBalanceDisplay();
     resultElem.textContent = msg.join(' / ');
